@@ -1,0 +1,32 @@
+{% extends "_base.twig" %}
+{% block content %}
+    <nav class="main-nav">
+        <div class="container">
+            <a class="page-title">Users & Group</a>
+            <ul class="sub-menu">
+                <li>
+                    <a href="/role/form"></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="row section">
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-field="id">Display name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td><a href="/user/form/{{ item._id }}">{% if(item.display_name) %}{{ item.display_name }}{% else %}{{ item.username }}{% endif %}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

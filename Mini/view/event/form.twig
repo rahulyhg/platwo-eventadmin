@@ -1,0 +1,193 @@
+{% extends "_base.twig" %}
+{% block content %}
+
+    <nav class="main-nav">
+        <div class="container">
+            <a class="page-title">{% if(id==0) %} Add {% else %} Edit {% endif %}</a>
+        </div>
+    </nav>
+
+    <div class="row section">
+        <div class="container">
+            <form class="col s12" method="post" action="/event/save">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input name="name" type="text" class="validate">
+                        <label for="last_name">Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea class="materialize-textarea" required></textarea>
+                        <label>Detail</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div class="img-thumb">
+                            <div class="content-thumb" style="background-image: url('/img/facebook-app-new.png');"></div>
+                            <i class="mdi-navigation-close remove-thumb"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input name="credit" type="text" class="validate">
+                        <label>Credit</label>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input name="date_start" type="date" class="datepicker" value="">
+                        <label>Start date</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select>
+                            <option value="" disabled selected>Start time</option>
+                            {% set hours = ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'] %}
+                            {% set mins = ['00', '15', '30', '45'] %}
+                            {% for hour in hours %}
+
+                                {% for min in mins %}
+                                    <option value="{{ hour }}:{{ min }}">{{ hour }}:{{ min }}</option>
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input name="date_start" type="date" class="datepicker">
+                        <label>End date</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select>
+                            <option value="" disabled selected>End time</option>
+                            {% for hour in hours %}
+                                {% for min in mins %}
+                                    <option value="{{ hour }}:{{ min }}">{{ hour }}:{{ min }}</option>
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        {%  set catagories = ['awards','conferences','contest','conventions','concert','education','exhibition','fair','fashion','festivals','film festival','film premieres','music festival','pageants','pr event','production/design','religious event','sports','technology'] %}
+                        <select>
+                            <option value="" disabled selected>Catagory</option>
+                            {% for catagorie in catagories %}
+                                <option value="{{ catagorie }}">{{ catagorie }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <ul>
+                            <li class="category-tag">
+                                <div class="tag-contain">
+                                    <span class="tag-name">TEST Drive</span>
+                                    <i class="mdi-navigation-close tag-close" title="Delete"></i>
+                                </div>
+                            </li>
+                            <li class="category-tag">
+                                <div class="tag-contain">
+                                    <span class="tag-name">TEST Drive</span>
+                                    <i class="mdi-navigation-close tag-close" title="Delete"></i>
+                                </div>
+                            </li>
+                            <li class="category-tag">
+                                <div class="tag-contain">
+                                    <span class="tag-name">TEST Drive</span>
+                                    <i class="mdi-navigation-close tag-close" title="Delete"></i>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <div id="map_canvas" style="height: 400px;"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        <a class="waves-effect waves-light btn-large btn-submit">Save</a>
+                        <input type="hidden" id="contact_map" name="contact_map" value="18.788586237470742, 98.98140907287598">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbR6oMD6wuts_4DXk55oH7S9UdXXx0CRQ">
+    </script>
+    <script type="text/javascript">
+
+        $(function(){
+            $('.datepicker').pickadate({
+                format: 'yyyy-mm-dd'
+            });
+
+            $('select').material_select();
+        });
+
+
+        function displayMap() {
+            document.getElementById('map__contain').style.display="block";
+            initialize();
+        }
+
+        function initialize() {
+
+            // var location_map
+            var place = document.getElementById('contact_map').value.split(', ');
+
+            // create the map
+            var mapLat = place[0];
+            var mapLng = place[1];
+            var mapOptions = {
+                zoom: 13,
+                center: new google.maps.LatLng(mapLat, mapLng),
+                zoomControl: false,
+                scaleControl: false,
+                scrollwheel: false,
+                streetViewControl: false,
+                panControl: false,
+                mapTypeControl: false,
+            }
+
+//            map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+            var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(mapLat, mapLng),
+                map: map,
+                draggable: true
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function (event) {
+                var myLat = this.getPosition().lat();
+                var myLng = this.getPosition().lng();
+                document.getElementById("contact_map").value = myLat+', '+myLng;
+
+//                var new_static_map = 'https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=530x300&maptype=roadmap&markers=color:red|label:|'+myLat+','+myLng;
+//                document.getElementById('static_map').src = new_static_map;
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+{% endblock %}

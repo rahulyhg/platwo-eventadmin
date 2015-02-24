@@ -1,0 +1,41 @@
+{% extends "_base.twig" %}
+{% block content %}
+
+    <nav class="main-nav">
+        <div class="container">
+            <a class="page-title">Login</a>
+        </div>
+    </nav>
+
+    <div class="row section">
+        <div class="container">
+            <form class="col s12" method="post" action="/user/login">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input name="username" type="text" class="validate">
+                        <label for="last_name">Username</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input name="password" type="password" class="validate">
+                        <label for="first_name">Password</label>
+                    </div>
+                </div>
+                {% if(error) %}
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <p>{{ error }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="input-field col s6">
+                        <a class="waves-effect waves-light btn-large btn-submit">Login</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

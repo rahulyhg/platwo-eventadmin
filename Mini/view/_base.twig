@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <title>Event sniff Admin{% if(title) %} - {{ title }} {% endif %}</title>
+
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/main.css"  media="screen,projection"/>
+</head>
+
+<body>
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/js/bin/materialize.min.js"></script>
+
+    <!-- Application -->
+    <script type="text/javascript" src="/js/application.js"></script>
+
+    <header>
+        <ul id="nav-mobile" class="side-nav fixed">
+            <li class="bold">
+                <a class="collection-item" href="/">Home</a>
+            </li>
+            {% if(user) %}
+                <li><a class="collection-item" href="/user/form_pass">Set password</a></li>
+                <li><a class="collection-item" href="/user/perms">User & Group Role</a></li>
+                <li><a class="collection-item" href="/role">Role & Permission</a></li>
+                <li><a class="collection-item" href="/event">Event</a></li>
+                <li><a class="collection-item" href="/user/logout">Logout</a></li>
+            {% else %}
+                <li><a class="collection-item" href="/login">Login</a></li>
+            {% endif %}
+        </ul>
+    </header>
+
+    <main>
+        <!-- main content, will be injected via Twig -->
+        {% block content %} {% endblock %}
+    </main>
+
+
+</body>
+</html>

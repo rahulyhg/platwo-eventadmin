@@ -1,0 +1,6 @@
+config.php
+composer.phar
+composer.lock
+nbproject/
+.idea/
+vendor/

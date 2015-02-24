@@ -1,0 +1,52 @@
+{% extends "_base.twig" %}
+{% block content %}
+
+    <nav class="main-nav">
+        <div class="container">
+            <a class="page-title">Edit user password</a>
+        </div>
+    </nav>
+
+    <div class="row section">
+        <div class="container">
+            <form class="col s12" method="post" action="/user/save_pass"> 
+                        
+                <div class="row">
+                    <div class="input-field col s6">
+                        <select name="user">
+                            <option value="">Select User</option>
+                            {% for item in items %}
+                                <option value="{{ item._id }}">{% if(item.display_name) %} {{ item.display_name }} {% else %} {{ item.username }} {% endif %}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                        
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="password" name="password" type="password" class="validate">
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                        
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="confirm_password" name="confirm_password" type="password" class="validate">
+                        <label for="confirm_password">Confirm Password</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        <a class="waves-effect waves-light btn-large btn-submit">Save</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            $('select').material_select();
+        });
+    </script>
+{% endblock %}

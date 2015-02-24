@@ -1,0 +1,129 @@
+{% extends "_base.twig" %}
+{% block content %}
+
+    <nav class="main-nav">
+        <div class="container">
+            <a class="page-title">{% if(id==0) %} Add {% else %} Edit {% endif %}</a>
+        </div>
+    </nav>
+
+    <div class="row section">
+        <div class="container">
+            <form class="col s12" method="post" action="/role/save">
+                
+                        
+                <div class="row">
+                    <div class="input-field col s6">
+                        
+                        {% if id == '' %}
+                            
+                        <select name="level">
+                            <option value="">Select Role</option>
+                            {% for role in roles %}
+                                
+                                {% set selected = '' %}
+                                {% if role.id == item.level_id %}
+                                    {% set selected = 'selected' %}
+                                {% endif %}
+                                
+                                <option value="{{ role.id }}" {{ selected }}>{{ role.name }}</option>
+                            {% endfor %}
+                        </select>
+                        
+                        {% else %}
+                            <p>{{ item.name }}</p>
+                            <input type="hidden" name="level" value="{{ item.level_id }}">
+                        {% endif %}
+                        
+                    </div>
+                </div>
+                        
+                <div class="row">
+                    <div class="input-field col s12">
+                        {% for perm in perms %}
+                            <div class="col s12">
+                                
+                                {% set checked = '' %}
+                                {% if perm.id in item.perms %}
+                                    {% set checked = 'checked' %}
+                                {% endif %}
+                                
+                                <input type="checkbox" id="{{ perm.id }}" name="perms[]" value="{{ perm.id }}" {{ checked }} />
+                                <label for="{{ perm.id }}">{{ perm.name }} - {{ perm.action }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        <a class="waves-effect waves-light btn-large btn-submit">Save</a>
+                        <a class="waves-effect waves-teal btn-flat" href="/role">Back</a>
+                        <input type="hidden" name="id" value="{{ item.id }}" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbR6oMD6wuts_4DXk55oH7S9UdXXx0CRQ">
+    </script>
+    <script type="text/javascript">
+
+        $(function(){
+            $('.datepicker').pickadate({
+                format: 'yyyy-mm-dd'
+            });
+
+            $('select').material_select();
+        });
+
+
+        function displayMap() {
+            document.getElementById('map__contain').style.display="block";
+            initialize();
+        }
+
+        function initialize() {
+
+            // var location_map
+            var place = document.getElementById('contact_map').value.split(', ');
+
+            // create the map
+            var mapLat = place[0];
+            var mapLng = place[1];
+            var mapOptions = {
+                zoom: 13,
+                center: new google.maps.LatLng(mapLat, mapLng),
+                zoomControl: false,
+                scaleControl: false,
+                scrollwheel: false,
+                streetViewControl: false,
+                panControl: false,
+                mapTypeControl: false,
+            }
+
+//            map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+            var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(mapLat, mapLng),
+                map: map,
+                draggable: true
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function (event) {
+                var myLat = this.getPosition().lat();
+                var myLng = this.getPosition().lng();
+                document.getElementById("contact_map").value = myLat+', '+myLng;
+
+//                var new_static_map = 'https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=530x300&maptype=roadmap&markers=color:red|label:|'+myLat+','+myLng;
+//                document.getElementById('static_map').src = new_static_map;
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+{% endblock %}

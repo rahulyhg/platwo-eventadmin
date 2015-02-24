@@ -1,0 +1,32 @@
+{% extends "_base.twig" %}
+{% block content %}
+    <nav class="main-nav">
+        <div class="container">
+            <a class="page-title">Event</a>
+            <ul class="sub-menu">
+                <li>
+                    <a href="/event/form">Add</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="row section">
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th data-field="id">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td><a href="{{ event.id }}">{{ event.name }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
