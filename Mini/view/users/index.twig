@@ -16,12 +16,14 @@
                 <thead>
                     <tr>
                         <th data-field="id">Display name</th>
+                        <th>Role Permission</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in items %}
                         <tr>
                             <td><a href="/user/form/{{ item._id }}">{% if(item.display_name) %}{{ item.display_name }}{% else %}{{ item.username }}{% endif %}</a></td>
+                            <td>{% if (item.group_role) %} <i class="mdi-action-done"></i> {% else %} <i class="mdi-content-clear"></i> {% endif %}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

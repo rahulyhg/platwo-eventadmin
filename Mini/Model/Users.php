@@ -14,7 +14,7 @@ class Users extends Model {
     public function gets() {
         
         $items = $this->db->users->find()
-                ->fields(['username' => 1, 'email' => 1, 'display_name' => 1])
+                ->fields(['username' => 1, 'email' => 1, 'display_name' => 1, 'group_role' => 1])
                 ->sort(['_id' => -1]);
         $item_lists = [];
         foreach ($items as $item) {
