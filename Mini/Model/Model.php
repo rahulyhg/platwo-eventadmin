@@ -188,13 +188,13 @@ class Model
             '_id' => $check_user['_id'],
             'password' => $check_password
         ],['username','display_name','email','access_token']);
-        $user['id'] = $user['_id']->{'$id'};
-        unset($user['_id']);
         
         if($user === null){
             return false;
         }
         
+        $user['id'] = $user['_id']->{'$id'};
+        unset($user['_id']);
         return $user;
     }
 
